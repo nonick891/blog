@@ -4,7 +4,7 @@ DB_USER?=root
 DB_PASSWORD?=root
 
 # .PHONY ensures make doesn't look for files named like these targets
-.PHONY: up down rebuild logs ps logs-php logs-nginx logs-mysql
+.PHONY: up down rebuild logs ps logs-php logs-nginx logs-mysql lint fix phpstan
 
 up:
 	docker compose -f $(COMPOSE_FILE) up -d
@@ -31,4 +31,13 @@ logs-mysql:
 	docker compose -f $(COMPOSE_FILE) logs -f mysql
 
 mysql-cli:
-	docker compose -f infrastructure/compose.yml exec db mysql -u$(DB_USER) -p$(DB_PASSWORD)
+	docker compose -f $(COMPOSE_FILE) exec db mysql -u$(DB_USER) -p$(DB_PASSWORD)
+
+lint:
+	docker compose -f $(COMPOSE_FILE) run --rm php composer lint
+
+fix:
+	docker compose -f $(COMPOSE_FILE) run --rm php composer fix
+
+phpstan:
+	docker compose -f $(COMPOSE_FILE) run --rm php vendor/bin/phpstan analyse
