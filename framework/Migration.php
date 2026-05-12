@@ -12,12 +12,11 @@ class Migration
 
     public static function run(): void
     {
+        self::ensureMigrationsExists();
+
         $executed = self::getMigrations();
 
-        $files = glob(dirname(__DIR__) . '/database/migrations/*.sql');
-        if ($files === false) {
-            throw new \RuntimeException('Failed to read migrations directory');
-        }
+        $files = self::discoverFiles();
 
         foreach ($files as $file) {
             $name = basename($file);
@@ -26,20 +25,9 @@ class Migration
                 continue;
             }
 
-            $sql = file_get_contents($file);
-            if ($sql === false) {
-                throw new \RuntimeException("Failed to read migration file: $file");
-            }
+            self::executeMigration($file, $name);
 
-            try {
-                DB::query($sql);
-            } catch (\PDOException $e) {
-                $lines = explode("\n", $sql);
-                $msg = self::getQueryError($name, $e, $lines);
-                throw new \RuntimeException($msg);
-            }
-
-            DB::query("INSERT INTO " . self::TABLE . " (name) VALUES (:name)", ['name' => $name]);
+            self::saveMigration($name);
 
             echo "Migration $name executed successfully\n";
         }
@@ -65,17 +53,6 @@ class Migration
     /** @return list<string> */
     public static function getMigrations(): array
     {
-        DB::query(sprintf(
-            "CREATE TABLE IF NOT EXISTS %s (
-                  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                  %s VARCHAR(255) NOT NULL UNIQUE,
-                  %s TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-              ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
-            self::TABLE,
-            self::COLUMN_NAME,
-            self::COLUMN_EXECUTED_AT
-        ));
-
         /** @var list<string> $migrations */
         $migrations = array_column(
             DB::fetchAll('SELECT name FROM ' . self::TABLE . ' ORDER BY executed_at DESC'),
@@ -91,7 +68,7 @@ class Migration
      * @param list<string> $queryLines
      * @return string
      */
-    public static function getQueryError(string $name, \PDOException|\Exception $e, array $queryLines): string
+    private static function formatQueryError(string $name, \PDOException|\Exception $e, array $queryLines): string
     {
         return sprintf(
             "SQL error in %s:\n  %s\n\n--- SQL ---\n%s\n------------",
@@ -106,5 +83,61 @@ class Migration
                 )
             )
         );
+    }
+
+    private static function ensureMigrationsExists(): void
+    {
+        DB::query(
+            sprintf(
+                "CREATE TABLE IF NOT EXISTS %s (
+                  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                  %s VARCHAR(255) NOT NULL UNIQUE,
+                  %s TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+              ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+                self::TABLE,
+                self::COLUMN_NAME,
+                self::COLUMN_EXECUTED_AT
+            )
+        );
+    }
+
+    /** @return list<string> */
+    private static function discoverFiles(): array
+    {
+        $files = glob(dirname(__DIR__) . '/database/migrations/*.sql');
+        if ($files === false) {
+            throw new \RuntimeException('Failed to read migrations directory');
+        }
+        return $files;
+    }
+
+    /**
+     * @param string $file
+     * @param string $name
+     */
+    private static function executeMigration(string $file, string $name): void
+    {
+        $sql = file_get_contents($file);
+
+        if ($sql === false) {
+            throw new \RuntimeException("Failed to read migration file: $file");
+        }
+
+        try {
+            DB::query($sql);
+        } catch (\PDOException $e) {
+            $lines = explode("\n", $sql);
+            $msg = self::formatQueryError($name, $e, $lines);
+            throw new \RuntimeException($msg);
+        }
+    }
+
+    /**
+     * @param string $name
+     * @return void
+     */
+    public static function saveMigration(string $name): void
+    {
+        DB::query("INSERT INTO " . self::TABLE . " (name) VALUES (:name)", ['name' => $name]);
     }
 }
