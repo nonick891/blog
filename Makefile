@@ -4,13 +4,19 @@ DB_USER?=root
 DB_PASSWORD?=root
 
 # .PHONY ensures make doesn't look for files named like these targets
-.PHONY: up down logs ps logs-php logs-nginx logs-mysql
+.PHONY: up down rebuild logs ps logs-php logs-nginx logs-mysql
 
 up:
 	docker compose -f $(COMPOSE_FILE) up -d
 
 down:
 	docker compose -f $(COMPOSE_FILE) down
+
+rebuild:
+	docker compose -f $(COMPOSE_FILE) up -d --build
+
+composer-install:
+	docker compose -f $(COMPOSE_FILE) run --rm php composer install --no-interaction
 
 logs:
 	docker compose -f $(COMPOSE_FILE) logs -f --tail=100

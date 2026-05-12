@@ -1,0 +1,6 @@
+{
+    "require-dev": {
+        "phpunit/phpunit": "^13.1",
+        "fakerphp/faker": "^1.24"
+    }
+}
