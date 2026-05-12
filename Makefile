@@ -4,19 +4,19 @@ DB_USER?=root
 DB_PASSWORD?=root
 
 # .PHONY ensures make doesn't look for files named like these targets
-.PHONY: up down rebuild logs ps logs-php logs-nginx logs-mysql lint fix phpstan
+.PHONY: up down rebuild logs ps logs-php logs-nginx logs-mysql mysql-cli lint fix phpstan migrate composer-install
 
 up:
-	docker compose -f $(COMPOSE_FILE) up -d
+	docker compose -f $(COMPOSE_FILE) up -d --remove-orphans
 
 down:
 	docker compose -f $(COMPOSE_FILE) down
 
 rebuild:
-	docker compose -f $(COMPOSE_FILE) up -d --build
+	docker compose -f $(COMPOSE_FILE) up -d --build --remove-orphans
 
 composer-install:
-	docker compose -f $(COMPOSE_FILE) run --rm php composer install --no-interaction
+	docker compose -f $(COMPOSE_FILE) exec php composer install --no-interaction
 
 logs:
 	docker compose -f $(COMPOSE_FILE) logs -f --tail=100
@@ -34,10 +34,13 @@ mysql-cli:
 	docker compose -f $(COMPOSE_FILE) exec db mysql -u$(DB_USER) -p$(DB_PASSWORD)
 
 lint:
-	docker compose -f $(COMPOSE_FILE) run --rm php composer lint
+	docker compose -f $(COMPOSE_FILE) exec php composer lint
 
 fix:
-	docker compose -f $(COMPOSE_FILE) run --rm php composer fix
+	docker compose -f $(COMPOSE_FILE) exec php composer fix
 
 phpstan:
-	docker compose -f $(COMPOSE_FILE) run --rm php vendor/bin/phpstan analyse
+	docker compose -f $(COMPOSE_FILE) exec php vendor/bin/phpstan analyse
+
+migrate:
+	docker compose -f $(COMPOSE_FILE) exec php php framework/migrate.php $(CMD)
