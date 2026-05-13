@@ -1,0 +1,4 @@
+#!/bin/sh
+vendor/bin/phpcbf core/ app/ 2>/dev/null
+git add -u
+vendor/bin/phpcs core/ app/ && vendor/bin/phpstan analyse core/ app/

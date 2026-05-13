@@ -5,12 +5,15 @@
         "ext-pdo_mysql": "*"
     },
     "scripts": {
-        "lint": "phpcs framework/ app/",
-        "fix": "phpcbf framework/ app/"
+        "lint": "phpcs core/ app/",
+        "fix": "phpcbf core/ app/",
+        "post-install-cmd": [
+            "git config core.hooksPath githooks || true"
+        ]
     },
     "autoload": {
         "psr-4": {
-            "Framework\\": "framework/",
+            "Core\\": "core/",
             "App\\": "app/"
         }
     },
