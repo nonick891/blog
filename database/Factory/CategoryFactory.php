@@ -13,11 +13,13 @@ class CategoryFactory
             'Education', 'Lifestyle', 'Finance', 'Nature', 'History',
         ];
 
-        $name = (string) $faker->unique()->randomElement($categories);
+        $name = $faker->unique()->randomElement($categories);
+        $name = is_string($name) ? $name : '';
 
         return [
             'name' => $name,
             'slug' => strtolower($name),
+            'description' => $faker->sentence(),
         ];
     }
 }

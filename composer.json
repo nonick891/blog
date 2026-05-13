@@ -2,7 +2,8 @@
     "require": {
         "php": ">=8.4",
         "ext-pdo": "*",
-        "ext-pdo_mysql": "*"
+        "ext-pdo_mysql": "*",
+        "smarty/smarty": "^5.8"
     },
     "scripts": {
         "lint": "phpcs core/ app/",

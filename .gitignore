@@ -2,3 +2,5 @@
 .idea
 .env
 vendor
+/app/Views/compiled/
+/app/Views/cache/

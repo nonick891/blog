@@ -6,8 +6,11 @@
     <rule ref="PSR12"/>
 
     <!-- Define which directories to check -->
-    <file>framework/</file>
+    <file>core/</file>
     <file>app/</file>
+    <file>database/</file>
+
+    <exclude-pattern>app/Views/</exclude-pattern>
 
     <!-- Show progress and colors in terminal -->
     <arg value="p"/>

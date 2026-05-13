@@ -5,3 +5,4 @@ parameters:
     excludePaths:
             analyse:
                 - vendor
+                - app/Views

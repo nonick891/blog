@@ -2,8 +2,6 @@
 
 namespace Database\Factory;
 
-use Faker\Factory;
-
 class PostFactory
 {
     /** @return array<string, mixed> */
@@ -19,6 +17,7 @@ class PostFactory
             'body' => implode("\n\n", array_map(fn() => $faker->realTextBetween(200, 400), range(1, 5))),
             'image' => 'https://picsum.photos/seed/' . $faker->uuid() . '/1200/600',
             'views' => $faker->numberBetween(0, 10000),
+            'created_at' => $faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d H:i:s')
         ];
     }
 }
