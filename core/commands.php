@@ -2,15 +2,17 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Core\MigrationsCommands;
+use Core\Command;
 
-$command = $argv[1] ?? 'migrate';
+$command = Command::tryFrom($argv[1] ?? 'migrate');
+
 try {
-    match ($command) {
-        'migrate' => MigrationsCommands::run(),
-        'reset' => MigrationsCommands::reset(),
-        default => throw new \InvalidArgumentException("Unknown command: $command. Use 'migrate' or 'reset'."),
-    };
+    if ($command === null) {
+        $commands = implode(', ', array_map(fn(Command $c) => "'{$c->value}'", Command::cases()));
+        throw new \InvalidArgumentException("Unknown command. Use: $commands");
+    }
+
+    $command->run();
 } catch (\Throwable $e) {
     fwrite(STDERR, "\033[31mError:\033[0m " . $e->getMessage() . "\n\n");
     fwrite(STDERR, "File: " . $e->getFile() . ":" . $e->getLine() . "\n");

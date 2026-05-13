@@ -4,6 +4,8 @@ namespace Core;
 
 class MigrationsCommands
 {
+    private static string $PATH = '/database/migrations';
+
     public static function run(): void
     {
         MigrationsStorage::ensureMigrationsExists();
@@ -49,7 +51,7 @@ class MigrationsCommands
     /** @return list<string> */
     private static function discoverFiles(): array
     {
-        $files = glob(dirname(__DIR__) . '/database/migrations/*.sql');
+        $files = glob(dirname(__DIR__) . self::$PATH . '/*.sql');
 
         if ($files === false) {
             throw new \RuntimeException('Failed to read migrations directory');

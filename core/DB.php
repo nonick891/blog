@@ -51,4 +51,52 @@ class DB
         $result = $stmt->fetchAll();
         return $result;
     }
+
+    /**
+     * @param array<string, mixed> $data
+     * @return array<string, mixed>
+     */
+    public static function insert(string $table, array $data): array
+    {
+        self::insertBatch($table, [$data]);
+
+        $id = self::getInstance()->lastInsertId();
+
+        if ($id === false) {
+            throw new \RuntimeException('Failed to retrieve last insert ID');
+        }
+
+        if ($id === '0') {
+            return $data;
+        }
+
+        return self::fetch("SELECT * FROM $table WHERE id = :id", ['id' => $id]);
+    }
+
+    /**
+     * @param list<array<string, mixed>> $rows
+     */
+    public static function insertBatch(string $table, array $rows): void
+    {
+        if ($rows === []) {
+            return;
+        }
+
+        $columns = implode(', ', array_keys($rows[0]));
+        $allPlaceholders = [];
+        $params = [];
+
+        foreach ($rows as $i => $row) {
+            $rowPlaceholders = array_map(fn(string $col) => ":{$col}_{$i}", array_keys($row));
+            $allPlaceholders[] = '(' . implode(', ', $rowPlaceholders) . ')';
+            foreach ($row as $col => $value) {
+                $params["{$col}_{$i}"] = $value;
+            }
+        }
+
+        self::query(
+            "INSERT INTO $table ($columns) VALUES " . implode(', ', $allPlaceholders),
+            $params
+        );
+    }
 }
