@@ -5,9 +5,12 @@ namespace App\Controllers;
 use Core\DB;
 use Core\View;
 
-class PostsController
+class MainController
 {
-    public function mainPage(): void
+    /**
+     * @return void
+     */
+    public function __invoke(): void
     {
         $posts = DB::fetchAll("
             select ranked.id, ranked.title, ranked.category_id,

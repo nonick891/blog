@@ -31,11 +31,13 @@ class SeederCommands
 
         $categories = DB::fetchAll('SELECT * FROM categories ORDER BY id');
 
+        $postsAmount = 50;
+
         $postData = [];
         foreach ($categories as $category) {
             $categoryName = is_string($category['name']) ? $category['name'] : '';
 
-            for ($j = 0; $j < 5; $j++) {
+            for ($j = 0; $j < $postsAmount; $j++) {
                 $postData[] = PostFactory::definition($faker, $categoryName);
             }
         }
@@ -45,7 +47,7 @@ class SeederCommands
 
         $linkData = [];
         foreach ($posts as $k => $post) {
-            $categoryIndex = intdiv($k, 5);
+            $categoryIndex = intdiv($k, $postsAmount);
             $linkData[] = [
                 'post_id' => $post['id'],
                 'category_id' => $categories[$categoryIndex]['id'],
