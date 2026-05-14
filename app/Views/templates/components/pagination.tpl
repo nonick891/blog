@@ -21,10 +21,3 @@
         {/if}
     </div>
 {/if}
-<style>
-    .pagination { display: flex; gap: 4px; align-items: center; margin: 20px 0; }
-    .pagination a, .pagination span { padding: 6px 12px; border: 1px solid #ddd; text-decoration: none; color: #333; }
-    .pagination a:hover { background: #f5f5f5; }
-    .pagination .current { background: #007bff; color: #fff; border-color: #007bff; }
-    .pagination .disabled { color: #999; }
-</style>

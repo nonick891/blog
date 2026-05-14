@@ -36,7 +36,7 @@ class CategoryController
 
         $totalPages = (int)ceil(($data['count'] / $perPage));
 
-        View::render('category.tpl', [
+        View::render('pages/category.tpl', [
             'category' => $data['category'], 'posts' => $data['posts'],
             'page' => $page, 'perPage' => $perPage,
             'totalPages' => $totalPages, 'sort' => $sort,

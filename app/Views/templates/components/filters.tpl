@@ -8,11 +8,3 @@
     <a href="?sort={$sort}&order=desc&per_page={$perPage}&page={$page}" class="order-arrow{if $order == 'desc'} active{/if}">&darr;</a>
     <a href="?" class="clear-filter">Clear</a>
 </div>
-<style>
-    .filter { display: flex; align-items: center; gap: 6px; }
-    .order-arrow { text-decoration: none; padding: 2px 6px; border: 1px solid #ccc; border-radius: 3px; color: #666; font-size: 14px; line-height: 1; }
-    .order-arrow.active { background: #007bff; color: #fff; border-color: #007bff; }
-    .order-arrow:not(.active):hover { background: #f0f0f0; }
-    .clear-filter { text-decoration: none; color: #999; font-size: 13px; margin-left: 4px; }
-    .clear-filter:hover { color: #c00; }
-</style>

@@ -1,0 +1,204 @@
+/* Layout */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #333;
+    line-height: 1.6;
+}
+
+nav {
+    margin-bottom: 20px;
+}
+
+nav a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+a {
+    color: #007bff;
+}
+
+main img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+footer {
+    margin-top: 40px;
+    color: #888;
+    font-size: 14px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+h2 {
+    margin-top: 30px;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.pagination a, .pagination span {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #333;
+}
+
+.pagination a:hover {
+    background: #f5f5f5;
+}
+
+.pagination .current {
+    background: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.pagination .disabled {
+    color: #999;
+}
+
+/* Filters */
+.filter {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.order-arrow {
+    text-decoration: none;
+    padding: 2px 6px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    color: #666;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.order-arrow.active {
+    background: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.order-arrow:not(.active):hover {
+    background: #f0f0f0;
+}
+
+.clear-filter {
+    text-decoration: none;
+    color: #999;
+    font-size: 13px;
+    margin-left: 4px;
+}
+
+.clear-filter:hover {
+    color: #c00;
+}
+
+/* Post cards (category page) */
+.posts {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.post {
+    display: flex;
+    gap: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.post img {
+    width: 150px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.post-body {
+    flex: 1;
+}
+
+.post-body h4 {
+    margin: 0 0 6px;
+}
+
+.post-body h4 a {
+    text-decoration: none;
+}
+
+.post-body h4 a:hover {
+    text-decoration: underline;
+}
+
+.post .meta {
+    color: #888;
+    font-size: 14px;
+    margin: 0 0 8px;
+}
+
+/* Similar posts (post page) */
+.similar-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.similar-posts .post {
+    display: flex;
+    gap: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.similar-posts .post img {
+    width: 100px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.similar-posts .post-body {
+    flex: 1;
+}
+
+.similar-posts .post-body h4 {
+    margin: 0 0 4px;
+    font-size: 16px;
+}
+
+.similar-posts .post .meta {
+    color: #888;
+    font-size: 13px;
+    margin: 0 0 6px;
+}
+
+.similar-posts .post-body p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}

@@ -45,6 +45,6 @@ class MainController
             }
         }
 
-        View::render('home.tpl', ['categories' => $grouped]);
+        View::render('pages/home.tpl', ['categories' => $grouped]);
     }
 }
