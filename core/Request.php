@@ -4,15 +4,18 @@ namespace Core;
 
 class Request
 {
-    public function get(string $key, string $default = ''): string
+    /**
+     * @param array<int, string> $allowed
+     */
+    public function get(string $key, string $default = '', array $allowed = []): string
     {
         if (!isset($_REQUEST[$key])) {
             return $default;
         }
 
-        $value = $_REQUEST[$key];
+        $value = self::sanitize(is_scalar($_REQUEST[$key]) ? (string)$_REQUEST[$key] : '');
 
-        return self::sanitize(is_scalar($value) ? (string)$value : '');
+        return $allowed ? (in_array($value, $allowed, true) ? $value : $default) : $value;
     }
 
     private function sanitize(string $input): string
