@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use Core\DB;
+use Core\Database\DB;
 use Core\View;
 
 class MainController

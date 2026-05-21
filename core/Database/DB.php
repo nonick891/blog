@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Core\Database;
 
 class DB
 {
@@ -13,7 +13,7 @@ class DB
     private static function getConfig(): array
     {
         /** @var array<string, string>|false $confFile */
-        $confFile = parse_ini_file(dirname(__DIR__) . '/.env');
+        $confFile = parse_ini_file(dirname(__DIR__, 2) . '/.env');
         return is_array($confFile) ? $confFile : [];
     }
 

@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Core\Command;
+use Core\Cli\Command;
 
 $command = Command::tryFrom($argv[1] ?? '');
 

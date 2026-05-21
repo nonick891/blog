@@ -1,7 +1,8 @@
 <?php
 
-namespace Core;
+namespace Core\Cli;
 
+use Core\Database\DB;
 use Database\Factory\CategoryFactory;
 use Database\Factory\PostFactory;
 use Faker\Factory;

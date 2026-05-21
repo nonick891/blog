@@ -2,7 +2,7 @@
 
 namespace App\Persistence;
 
-use Core\DB;
+use Core\Database\DB;
 
 class PostRepository
 {

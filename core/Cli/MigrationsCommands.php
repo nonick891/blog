@@ -1,6 +1,9 @@
 <?php
 
-namespace Core;
+namespace Core\Cli;
+
+use Core\Database\DB;
+use Core\Database\MigrationsStorage;
 
 class MigrationsCommands
 {
