@@ -4,7 +4,7 @@ namespace Core\Router;
 
 use Core\Request;
 
-class Router
+readonly class Router
 {
     /**
      * @param array<string, list<array{0: string, 1: array{0: class-string, 1: string}|callable|class-string}>> $routes
@@ -24,7 +24,6 @@ class Router
         $routeGroup = $this->routes[$requestMethod] ?? [];
 
         foreach ($routeGroup as [$path, $handler]) {
-            var_dump([$path, $handler]);
             $pattern = preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $path);
             $pattern = '#^' . $pattern . '$#';
 
