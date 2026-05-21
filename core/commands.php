@@ -4,7 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Core\Command;
 
-$command = Command::tryFrom($argv[1] ?? 'migrate');
+$command = Command::tryFrom($argv[1] ?? '');
 
 try {
     if ($command === null) {

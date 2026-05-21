@@ -18,7 +18,6 @@ class CategoryFactory
 
         return [
             'name' => $name,
-            'slug' => strtolower($name),
             'description' => $faker->sentence(),
         ];
     }
