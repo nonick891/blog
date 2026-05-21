@@ -49,7 +49,7 @@ fix:
 	docker compose -f $(COMPOSE_FILE) exec php composer fix
 
 phpstan:
-	docker compose -f $(COMPOSE_FILE) exec php vendor/bin/phpstan analyse
+	docker compose -f $(COMPOSE_FILE) exec php vendor/bin/phpstan analyse --memory-limit=512M
 
 ## Migrations
 

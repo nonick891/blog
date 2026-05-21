@@ -1,26 +1,16 @@
 <?php
 
-namespace Core;
+namespace Core\Router;
+
+use Core\Request;
 
 class Router
 {
-    /** @var array<string, list<array{0: string, 1: array{0: class-string, 1: string}|callable|class-string}>> */
-    private array $routes = [];
-
     /**
-     * @param array{0: class-string, 1: string}|callable|class-string $handler
+     * @param array<string, list<array{0: string, 1: array{0: class-string, 1: string}|callable|class-string}>> $routes
      */
-    public function get(string $path, array|callable|string $handler): void
+    public function __construct(private array $routes = [])
     {
-        $this->routes['GET'][] = [$path, $handler];
-    }
-
-    /**
-     * @param array{0: class-string, 1: string}|callable|class-string $handler
-     */
-    public function post(string $path, array|callable|string $handler): void
-    {
-        $this->routes['POST'][] = [$path, $handler];
     }
 
     public function dispatch(): void
@@ -34,6 +24,7 @@ class Router
         $routeGroup = $this->routes[$requestMethod] ?? [];
 
         foreach ($routeGroup as [$path, $handler]) {
+            var_dump([$path, $handler]);
             $pattern = preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $path);
             $pattern = '#^' . $pattern . '$#';
 
